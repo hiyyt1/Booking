@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        .statistics h3 {
+            font-size: 1.2em;
+        }
+
+        .statistics p {
+            font-size: 1.1em;
+        }
+
+        .list-group-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .list-group-item a:hover {
+            color: #0056b3;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Новости</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('index') }}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('add_article') }}">Добавить новость</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4">
+        <h1>Все новости</h1>
+
+
+        <div class="statistics">
+            <h2 class="my-4">Статистика</h2>
+
+            <h3>Топ 5 тегов</h3>
+            <ul class="list-group mb-4">
+                {% for tag in top_tags %}
+                    <li class="list-group-item">{{ tag[0] }}: {{ tag[1] }} статьи</li>
+                {% endfor %}
+            </ul>
+
+            <h3>Новости по дням</h3>
+            <ul class="list-group mb-4">
+                {% for date, count in news_by_date %}
+                    <li class="list-group-item">{{ date }}: {{ count }} статьи</li>
+                {% endfor %}
+            </ul>
+
+            <h3>Среднее количество символов в статье</h3>
+            <p>{{ avg_char_count }} символов</p>
+
+            <h3>Общее количество новостей</h3>
+            <p>{{ total_news_count }} новостей</p>
+
+
+            <h3>День с максимальным количеством новостей</h3>
+            {% if max_news_day %}
+                <p>{{ max_news_day[0] }}: {{ max_news_day[1] }} новостей</p>
+            {% else %}
+                <p>Нет данных о днях с новостями.</p>
+            {% endif %}
+        </div>
+
+
+        <h2 class="my-4">Список новостей</h2>
+        <ul class="list-group">
+            {% for news in news_items %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('article', id=news.id) }}" class="text-dark">
+                        {{ news.title }} - {{ news.pub_date }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        <div class="mt-4">
+            <a href="{{ url_for('add_article') }}" class="btn btn-primary">Добавить новость</a>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

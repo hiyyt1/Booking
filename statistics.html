@@ -1,0 +1,21 @@
+<h2>Top 5 Authors</h2>
+<ul>
+    {% if top_authors %}
+        {% for author in top_authors %}
+            <li>{{ author[0] }}: {{ author[1] }} articles</li>
+        {% endfor %}
+    {% else %}
+        <li>No authors data available.</li>
+    {% endif %}
+</ul>
+
+<h2>Top 5 Tags</h2>
+<ul>
+    {% if top_tags %}
+        {% for tag in top_tags %}
+            <li>{{ tag[0] }}: {{ tag[1] }} articles</li>
+        {% endfor %}
+    {% else %}
+        <li>No tags data available.</li>
+    {% endif %}
+</ul>
